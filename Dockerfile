@@ -3,33 +3,33 @@ FROM eclipse-temurin:23-jdk AS build
 
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first
-COPY mvnw .
-COPY .mvn .mvn
+# Copy only pom.xml first
 COPY pom.xml .
 
-# Download dependencies
-RUN chmod +x mvnw && ./mvnw dependency:go-offline
+# Install Maven (since you don't have mvnw)
+RUN apt-get update && apt-get install -y maven
 
-# Copy the entire project source
+# Download dependencies
+RUN mvn dependency:go-offline
+
+# Copy full project
 COPY src src
 
-# Build the project (WAR file)
-RUN ./mvnw clean package -DskipTests
+# Build the WAR file
+RUN mvn clean package -DskipTests
 
 # ---- 2. Runtime Stage ----
 FROM eclipse-temurin:23-jre
 
 WORKDIR /app
 
-# Copy WAR file from build stage
+# Copy WAR from build stage
 COPY --from=build /app/target/*.war app.war
 
-# Expose port for Render
-EXPOSE 8080
-
-# Render provides PORT env automatically
+# Render sets PORT automatically
 ENV PORT=8080
 
-# Start app
-ENTRYPOINT ["java", "-jar", "/app/app.war"]
+EXPOSE 8080
+
+# Run WAR
+ENTRYPOINT ["java", "-jar", "app.war"]
