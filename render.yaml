@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: realestate-app
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase: realestate-db
+        property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase: realestate-db
+        property: username
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase: realestate-db
+        property: password
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+databases:
+  - name: realestate-db
+    plan: free
+    databaseName: realestate
+    user: realestate_user
