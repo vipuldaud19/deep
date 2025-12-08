@@ -9,14 +9,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 
-public class ProjectController {
+public class HomeController {
 
-    // Home page
+	// Root URL mapping
     @GetMapping("/project")
-    public String home(Model model) {
-        model.addAttribute("pageTitle", "EstateFinders - Find Your Dream Home");
-        return "project"; // corresponds to index.jsp
+    public String home() {
+        return "index"; // renders index.jsp
     }
 
+    // Optional: custom error mapping
+    @GetMapping("/error")
+    public String error() {
+        return "error"; // renders error.jsp
     
+}
 }
