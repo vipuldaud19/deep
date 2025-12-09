@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    // Root URL mapping
-    @GetMapping("/index")
+    // Root URL -> index.jsp
+    @GetMapping("/")
     public String home() {
-        return "index"; // renders index.jsp
+        return "index";
     }
 
-    // Optional: custom error mapping
-    @GetMapping("/error")
-    public String error() {
-        return "error"; // renders error.jsp
+    // Custom error page -> error.jsp
+    @GetMapping("/error-page")
+    public String errorPage() {
+        return "error";
     }
 }
