@@ -1,30 +1,17 @@
-# Use Java 17
-FROM eclipse-temurin:17-jdk AS build
+# Use Tomcat base image with Java 17
+FROM tomcat:10.1.14-jdk17
+
+# Remove default webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Set working directory
-WORKDIR /app
+WORKDIR /usr/local/tomcat/webapps/
 
-# Copy Maven wrapper + pom.xml
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
+# Copy the WAR built by Maven
+COPY target/realestate.war ./ROOT.war
 
-# Make wrapper executable
-RUN chmod +x mvnw
-
-# Copy source
-COPY src ./src
-
-# Build
-RUN ./mvnw clean package -DskipTests
-
-# Runtime Image
-FROM eclipse-temurin:17-jre
-WORKDIR /app
-
-# Copy jar
-COPY --from=build /app/target/realestate-0.0.1-SNAPSHOT.jar app.jar
-
+# Expose port 8080
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Start Tomcat
+CMD ["catalina.sh", "run"]
