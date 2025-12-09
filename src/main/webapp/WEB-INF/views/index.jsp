@@ -370,7 +370,7 @@
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-dark">
 	    <div class="container-fluid">
-	      <a class="navbar-brand" href="${pageContext.request.contextPath}/project">
+	      <a class="navbar-brand" href="${pageContext.request.contextPath}/index">
 	        <img src="<c:url value='/resources/images/estate1.jpg' />"  alt="Logo" width="60" class="d-inline-block align-top">
 	        <span>ESTATEFINDERS</span>
 	      </a>

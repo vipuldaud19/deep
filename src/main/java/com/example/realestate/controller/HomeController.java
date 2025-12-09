@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     // Root URL mapping
-    @GetMapping("/")
+    @GetMapping("/index")
     public String home() {
         return "index"; // renders index.jsp
     }
